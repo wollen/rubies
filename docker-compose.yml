@@ -1,0 +1,21 @@
+version: '2'
+services:
+  db:
+    image: postgres:9.6
+    expose:
+      - "5432"
+  web:
+    build: ./my-rails-app
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    volumes:
+      - ./my-rails-app:/my-rails-app
+    ports:
+      - "3000:3000"
+    links:
+      - db
+    environment:
+      DATABASE_USER: postgres
+      DATABASE_PASSWORD:
+      DATABASE_PORT: 5432
+      DATABASE_HOST: db
+
